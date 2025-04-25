@@ -15,3 +15,12 @@ class PlayerL(pygame.sprite.Sprite):
       self.velocity = 5
       self.rect.x = 55
       self.rect.y = 200
+   
+   
+   def move_right(self):
+   # si le joueur n'est pas en colision avec un monstre
+      # if not self.game.check_collision(self, self.game.all_monsters):
+      self.rect.x += self.velocity
+   
+   def move_left(self):
+      self.rect.x -= self.velocity

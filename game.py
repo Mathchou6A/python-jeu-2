@@ -26,7 +26,16 @@ class Game:
       # afficher le score sur l'écran
       score_text = self.font.render(f"Score: {self.score}", 1, (0, 0, 0)) # définir le texte
       screen.blit(score_text, (20, 20)) # afficher le texte sur l'écran
+      
+      # verifier si le joueur soit aller à gauche ou à droite
+      if self.perssed.get(pygame.K_d) and self.player_l.rect.x + 225 < screen.get_width(): # si la touche droite est enfoncée      
+         self.player_l.move_right() # déplacer le joueur vers la droite   
+      elif self.perssed.get(pygame.K_q) and self.player_l.rect.x > -10: # si la touche gauche est enfoncée et que le joueur ne dépace pas la gauche de l'écran    
+         self.player_l.move_left() # déplacer le joueur vers la gauche
 
       #appliquer l'image du joueur
       screen.blit(self.player_r.image, self.player_r.rect) 
       screen.blit(self.player_l.image, self.player_l.rect)
+   
+   # def check_collision(self, sprite, group):
+   #    return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask) # vérifier si le joueur touche un monstre
