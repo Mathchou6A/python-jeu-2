@@ -68,7 +68,7 @@ while running:
             game.start()
             print("Jeu commencé")
             # jouer le sond
-            game.sound_manager.play('click') # jouer le son de clic
+            # game.sound_manager.play('click') # jouer le son de clic
          else:
             game.player.launch_projectile()
       
