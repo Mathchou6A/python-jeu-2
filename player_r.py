@@ -3,15 +3,16 @@ import pygame
 # créer une classe pour les deux joueur 
 
 class PlayerR(pygame.sprite.Sprite):
-   def __init__(self, game, name):
+   def __init__(self, game):
       super().__init__()
       self.game = game # récupérer le jeu
       self.image = pygame.image.load('assets/player_r.png')
       self.rect = self.image.get_rect()
+      self.image = pygame.transform.scale(self.image, (129, 400))
       self.max_health = 100
       self.health = 100
       self.attack = 10
       self.velocity = 5
-      self.rect.x = 400
-      self.rect.y = 400
+      self.rect.x = 1000
+      self.rect.y = 200
 

@@ -1,5 +1,5 @@
 import pygame
-# from sounds import SoundManager # importer notre gestionnaire de son
+from sounds import SoundManager # importer notre gestionnaire de son
 from player_r import PlayerR # importer le joueur de droite
 from player_l import PlayerL # importer le joueur de gauche
 
@@ -14,7 +14,7 @@ class Game:
       self.perssed = {} # dictionnaire pour stocker les touches pressées
       
       # # gérer le sond
-      # self.sound_manager = SoundManager()
+      self.sound_manager = SoundManager()
       
       self.font = pygame.font.Font('assets/ChelaOne-Regular.ttf', 25) # définir la police
       

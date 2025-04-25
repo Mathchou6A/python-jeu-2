@@ -2,6 +2,8 @@ import pygame
 import math
 from game import Game # importer la classe game
 
+pygame.init() # initialiser pygame
+
 # def une clock 
 clock = pygame.time.Clock() # créer une horloge pour le jeu
 # définir le nombre de FPS
@@ -17,7 +19,7 @@ hauteur = 650
 screen = pygame.display.set_mode((largeur, hauteur)) # définir la taille de la fenêtre   (1800, 950)
 pygame.display.set_caption("Jeu pour l'anglais et la NSI")
 
-background = pygame.image.load("assets/bg.jpg") # charger l'arrière-plan
+background = pygame.image.load("assets/map_of_war.jpg") # charger l'arrière-plan
 
 # charger notre bannière
 banner = pygame.image.load("assets/banner.png") # charger la bannière
@@ -40,7 +42,7 @@ running = True
 
 while running:
    # appliquer l'image de fond
-   screen.blit(background, (-850, -300)) 
+   screen.blit(background, (0, -200)) 
    
    # verifier si le jeu a commencé
    if game.is_playing:
@@ -68,7 +70,7 @@ while running:
             game.start()
             print("Jeu commencé")
             # jouer le sond
-            # game.sound_manager.play('click') # jouer le son de clic
+            game.sound_manager.play('click') # jouer le son de clic
          else:
             game.player.launch_projectile()
       
