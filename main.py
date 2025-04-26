@@ -35,7 +35,7 @@ play_button_rect.x = math.ceil(screen.get_width() // 2 - play_button.get_width()
 play_button_rect.y = math.ceil(screen.get_height() // 2 + play_button.get_height() // 2) # centrer le bouton
 
 
-game = Game() # charger notre jeu
+game = Game(screen) # charger notre jeu
 
 # boucle de jeu
 running = True
@@ -72,7 +72,7 @@ while running:
             # jouer le sond
             game.sound_manager.play('click') # jouer le son de clic
          else:
-            game.player.launch_projectile()
+            game.slap_l()
       
       elif event.type == pygame.KEYUP: # si une touche est relâchée
          game.perssed[event.key] = False
