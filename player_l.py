@@ -1,5 +1,5 @@
 import pygame
-from bouclier import Bouclier # type: ignore # importer le bouclier
+from shield import Shield # type: ignore # importer le shield
 
 
 # créer une classe pour les deux joueur 
@@ -9,7 +9,7 @@ class PlayerL(pygame.sprite.Sprite):
       super().__init__()
       self.game = game # récupérer le jeu
       self.screen = screen # récupérer l'écran
-      # self.bouclier = Bouclier(self.game, self) # créer le bouclier du joueur gauche
+      # self.shield = shield(self.game, self) # créer le shield du joueur gauche
 
       
       # charger l'image du joueur
@@ -35,13 +35,18 @@ class PlayerL(pygame.sprite.Sprite):
       self.velocity = 5
       self.rect.x = 55
       self.rect.y = 201
-   
+      
+      self.has_shield = False
+
+      
    def atk_l(self):
-      # changer le statut du joueur en mode attaque
-      self.status = "atk"
-      # jouer le son d'attaque
-      self.screen.blit(self.game.bouclier.image, self.game.bouclier.rect) # afficher le bouclier
-      self.game.bouclier.move() # déplacer le bouclier
+      if not self.has_shield:
+         self.status = "atk"
+         shield = Shield(self.game, self)
+         self.game.shield.add(shield)
+         self.has_shield = True
+
+
    
    def def_l(self):
       # changer le statut du joueur en mode attaque

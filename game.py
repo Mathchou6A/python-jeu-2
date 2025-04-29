@@ -2,7 +2,7 @@ import pygame
 from sounds import SoundManager # importer notre gestionnaire de son
 from player_r import PlayerR # importer le joueur de droite
 from player_l import PlayerL # importer le joueur de gauche
-from bouclier import Bouclier # type: ignore # importer le bouclier
+from shield import Shield # type: ignore # importer le shield
 
 
 class Game:
@@ -11,7 +11,8 @@ class Game:
       self.is_playing = False
       self.player_r = PlayerR(self, screen)
       self.player_l = PlayerL(self, screen)
-      self.bouclier = Bouclier(self, self.player_l) # créer le bouclier du joueur gauche
+      self.shield = pygame.sprite.Group()  # pour contenir tous les boucliers lancés
+
       self.score = 0 
       
       
@@ -48,8 +49,7 @@ class Game:
       self.is_playing = True
    
    def update(self, screen):
-      print(self.screen.get_width() // 2 - 40) # afficher 
-      # print(pygame.sprite.collide_rect(self.player_l, self.player_r))
+      # print(self.screen.get_width() // 2 - 40) # afficher 
       # afficher le score sur l'écran
       score_text = self.font.render(f"Score: {self.score}", 1, (0, 0, 0)) # définir le texte
       screen.blit(score_text, (20, 20)) # afficher le texte sur l'écran
@@ -69,6 +69,13 @@ class Game:
          screen.blit(self.player_r.image_atk, self.player_r.rect)
       elif self.player_r.status == "def":
          screen.blit(self.player_r.image_def, self.player_r.rect)
+      
+      # afficher et mettre à jour les boucliers
+      for shield in self.shield:
+         shield.move()
+         screen.blit(shield.image, shield.rect)
+         # self.shield.all_shield.draw(screen) # dessiner tous les boucliers sur l'écran
+
       
       # afficher la barre de vie des joueurs
       self.health_bar_player_l(self.screen) 

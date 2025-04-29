@@ -72,7 +72,12 @@ while running:
             # jouer le sond
             game.sound_manager.play('click') # jouer le son de clic
          else:
-            game.player_l.atk_l()
+            if event.button == 1:
+               game.player_l.atk_l()
+               print("Attaque du joueur gauche")
+            elif event.button == 3:
+               game.player_l.def_l()
+               print("Défense du joueur gauche")
       
       # elif event.type == pygame.MOU: 
       #    game.player_l.def_l()
