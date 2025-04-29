@@ -72,7 +72,11 @@ while running:
             # jouer le sond
             game.sound_manager.play('click') # jouer le son de clic
          else:
-            game.slap_l()
+            game.player_l.atk_l()
+      
+      # elif event.type == pygame.MOU: 
+      #    game.player_l.def_l()
+      
       
       elif event.type == pygame.KEYUP: # si une touche est relâchée
          game.perssed[event.key] = False

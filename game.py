@@ -2,6 +2,7 @@ import pygame
 from sounds import SoundManager # importer notre gestionnaire de son
 from player_r import PlayerR # importer le joueur de droite
 from player_l import PlayerL # importer le joueur de gauche
+from bouclier import Bouclier # type: ignore # importer le bouclier
 
 
 class Game:
@@ -10,6 +11,7 @@ class Game:
       self.is_playing = False
       self.player_r = PlayerR(self, screen)
       self.player_l = PlayerL(self, screen)
+      self.bouclier = Bouclier(self, self.player_l) # créer le bouclier du joueur gauche
       self.score = 0 
       
       
@@ -52,9 +54,21 @@ class Game:
       score_text = self.font.render(f"Score: {self.score}", 1, (0, 0, 0)) # définir le texte
       screen.blit(score_text, (20, 20)) # afficher le texte sur l'écran
       
-      #appliquer l'image du joueur
-      screen.blit(self.player_l.image, self.player_l.rect)
-      screen.blit(self.player_r.image, self.player_r.rect)
+      #appliquer l'image du joueur_l
+      if self.player_l.status == "passive":
+         screen.blit(self.player_l.image_passive, self.player_l.rect)
+      elif self.player_l.status == "atk": 
+         screen.blit(self.player_l.image_atk, self.player_l.rect)
+      elif self.player_l.status == "def":
+         screen.blit(self.player_l.image_def, self.player_l.rect)
+      
+      # appliquer l'image du joueur_r
+      if self.player_r.status == "passive":
+         screen.blit(self.player_r.image_passive, self.player_r.rect)
+      elif self.player_r.status == "atk": 
+         screen.blit(self.player_r.image_atk, self.player_r.rect)
+      elif self.player_r.status == "def":
+         screen.blit(self.player_r.image_def, self.player_r.rect)
       
       # afficher la barre de vie des joueurs
       self.health_bar_player_l(self.screen) 
