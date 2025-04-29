@@ -17,18 +17,17 @@ class Shield(pygame.sprite.Sprite):
       if not self.retour:
          # déplacer le bouclier
          self.move_right()
-         print("Bouclier en mouvement vers PlayerR", self.rect.x)
          if self.rect.colliderect(self.game.player_r.rect):
-            print("Bouclier touché PlayerR", self.rect.x)
+            print("Bouclier touché PlayerR")
             self.retour = True
+            self.game.player_r.domage(self.player_l.attack)
 
       # collision avec player_r → phase retour
       elif self.retour:
-         print("Bouclieren mouvement vers PlayerL", self.rect.x)
          self.move_left()
          if self.player_l.rect.x + 227 >= self.rect.x:
             # collision retour avec player_l → supprimer
-            print("🛡️ Bouclier revenu au joueur", self.rect.x, self.player_l.rect.x)
+            print("Bouclier revenu au joueur")
             self.remove()
             self.game.player_l.has_shield = False
 

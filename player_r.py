@@ -37,3 +37,11 @@ class PlayerR(pygame.sprite.Sprite):
       self.status = "atk"
       # jouer le son d'attaque
       self.game.sound_manager.play('tir')
+   
+   def domage(self, attack):
+      # infliger des dégâts au joueur
+      self.health -= attack
+      if self.health <= 0:
+         self.game.is_playing = False
+      
+      
