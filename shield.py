@@ -21,6 +21,7 @@ class Shield(pygame.sprite.Sprite):
             print("Bouclier touché PlayerR")
             self.retour = True
             self.game.player_r.domage(self.player_l.attack)
+            print("atk a :", self.player_l.attack, "positio", self.player_l.rect.x)
 
       # collision avec player_r → phase retour
       elif self.retour:
@@ -28,6 +29,8 @@ class Shield(pygame.sprite.Sprite):
          if self.player_l.rect.x + 227 >= self.rect.x:
             # collision retour avec player_l → supprimer
             print("Bouclier revenu au joueur")
+            self.player_l.status = "passive"
+            self.retour = False
             self.remove()
             self.game.player_l.has_shield = False
 

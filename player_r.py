@@ -1,12 +1,14 @@
 import pygame
+import random
 
 # créer une classe pour les deux joueur 
 
 class PlayerR(pygame.sprite.Sprite):
-   def __init__(self, game, screen):
+   def __init__(self, game, screen, player_l):
       super().__init__()
       self.game = game # récupérer le jeu
       self.screen = screen
+      self.player_l = player_l
       
       # charger l'image du joueur
       self.image_passive = pygame.image.load('assets/player_r.png')
@@ -32,7 +34,10 @@ class PlayerR(pygame.sprite.Sprite):
       self.rect.x = 1000
       self.rect.y = 200
 
-   def attack_l(self):
+      self.ia_cooldown = 0  # pour gérer le rythme des actions
+      self.mode = ""    # idle, avancer, attaquer, défendre, reculer
+
+   def atk_l(self):
       # changer le statut du joueur en mode attaque
       self.status = "atk"
       # jouer le son d'attaque
@@ -42,6 +47,71 @@ class PlayerR(pygame.sprite.Sprite):
       # infliger des dégâts au joueur
       self.health -= attack
       if self.health <= 0:
-         self.game.is_playing = False
+         self.game.game_over()
+   
+   def def_l(self):
+      # changer le statut du joueur en mode défense
+      self.status = "def"
+      # jouer le son d'attaque
+      # self.game.sound_manager.play('tir')
+   
+   def update_ai(self, distance):
+      
+      self.mode = random.choice(["avancer", "attaquer", "défendre", "reculer"])
+      # if self.rect.x <= 580: 
+      #    self.mode = "reculer"
+      # if abs(distance) > 300:
+      #    self.mode = "avancer"
+      if self.player_l.status == "atk" and random.randint(0, 2) == 0:
+         self.defandre()
+      self.ia_cooldown = random.randint(30, 90)
       
       
+      if self.mode == "avancer":
+         self.avancer()
+      if self.mode == "attaquer":
+         self.attaque()
+      if self.mode == "défendre":
+         self.defandre()
+      if self.mode == "reculer":
+         self.reculer()
+   
+   def attaque(self):
+      self.status = "atk"
+   
+   def avancer(self):
+      self.status = "passive"
+      self.rect.x -= self.velocity  # avancer vers la gauche
+   
+   def defandre(self):
+      self.status = "def"
+   
+   def reculer(self):
+      self.status = "passive"
+      self.rect.x += self.velocity  # reculer vers la droite
+
+      # if abs(distance) > 300:
+      #    self.mode = "avancer"
+      #    self.status = "passive"
+      #    self.rect.x -= self.velocity  # avancer vers la gauche
+      # elif abs(distance) < 200:
+      #    self.mode = "passive"
+      #    self.rect.x += self.velocity
+      # else:
+      #    self.mode = random.choice(["attaquer", "défendre", "reculer"])
+      #    self.ia_cooldown = random.randint(30, 90)  # temps avant prochaine action (0.5 à 1.5s)
+      #    if self.mode == "attaquer":
+      #       self.status = "atk"
+      #       self.game.sound_manager.play('tir')
+      #       self.game.player_l.health -= self.attack
+      #       if self.game.player_l.health <= 0:
+      #          self.game.game_over()
+      #    elif self.mode == "défendre":
+      #       self.status = "def"
+      #    elif self.mode == "reculer":
+      #       self.status = "passive"
+      #       self.rect.x += self.velocity  # reculer vers la droite
+         
+         
+
+

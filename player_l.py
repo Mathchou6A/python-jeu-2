@@ -31,15 +31,16 @@ class PlayerL(pygame.sprite.Sprite):
       
       self.max_health = self.screen.get_width() / 2 - 80
       self.health = self.screen.get_width() / 2 - 80
-      self.attack = 10
       self.velocity = 5
       self.rect.x = 55
       self.rect.y = 201
+      self.attack = 10
       
       self.has_shield = False
 
       
    def atk_l(self):
+      self.attack = 10 + (self.rect.x / 4)
       if not self.has_shield:
          self.status = "atk"
          shield = Shield(self.game, self)

@@ -9,8 +9,8 @@ class Game:
    def __init__(self, screen):
       self.screen = screen
       self.is_playing = False
-      self.player_r = PlayerR(self, screen)
       self.player_l = PlayerL(self, screen)
+      self.player_r = PlayerR(self, screen, self.player_l)
       self.shield = pygame.sprite.Group()  # pour contenir tous les boucliers lancés
 
       self.score = 0 
@@ -48,8 +48,29 @@ class Game:
    def start(self):
       self.is_playing = True
    
+   def game_over(self):
+      # remettre la vie du joueur à son maximum
+      self.player_l.health = self.player_l.max_health 
+      self.player_r.health = self.player_r.max_health 
+      
+      # remettre le joueur à sa position initiale
+      self.player_l.rect.x = 55 
+      self.player_r.rect.y = 1000
+      
+      # remettre le joueur à son statut initial
+      self.player_l.status = "passive" 
+      self.player_r.status = "passive" 
+      
+      self.shield.remove(self.shield) # supprimer tous les boucliers
+      self.player_l.has_shield = False
+      
+      self.is_playing = False # remettre le jeu en attente
+      self.score = 0 # remettre le score à 0
+      # jouer le son de game over
+      self.sound_manager.play('game_over') # jouer le son de game over
+   
    def update(self, screen):
-      # print(self.screen.get_width() // 2 - 40) # afficher 
+      # print(self.player_r.rect.x) # afficher 
       # afficher le score sur l'écran
       score_text = self.font.render(f"Score: {self.score}", 1, (0, 0, 0)) # définir le texte
       screen.blit(score_text, (20, 20)) # afficher le texte sur l'écran
@@ -61,6 +82,9 @@ class Game:
          screen.blit(self.player_l.image_atk, self.player_l.rect)
       elif self.player_l.status == "def":
          screen.blit(self.player_l.image_def, self.player_l.rect)
+      distance = self.player_l.rect.x - self.player_r.rect.x
+      
+      self.player_r.update_ai(distance)
       
       # appliquer l'image du joueur_r
       if self.player_r.status == "passive":

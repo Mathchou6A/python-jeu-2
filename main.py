@@ -65,7 +65,7 @@ while running:
       
       # Déclenchement avec un clic gauche de souris
       elif event.type == pygame.MOUSEBUTTONDOWN:
-         # vérifier si clic sur le bouton play
+         # vérifier si clic sur le bouton play 
          if game.is_playing == False and play_button_rect.collidepoint(event.pos): # si le jeu n'a pas commencé
             game.start()
             print("Jeu commencé")
