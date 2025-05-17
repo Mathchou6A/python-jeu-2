@@ -21,7 +21,11 @@ class Shield(pygame.sprite.Sprite):
             print("Bouclier touché PlayerR")
             self.retour = True
             self.game.player_r.domage(self.player_l.attack)
-            print("atk a :", self.player_l.attack, "positio", self.player_l.rect.x)
+         elif self.rect.colliderect(self.game.soldat.rect):
+            print("Bouclier touché Soldat")
+            self.game.score += 10
+            self.retour = True
+            self.game.soldat.domage(38)
 
       # collision avec player_r → phase retour
       elif self.retour:

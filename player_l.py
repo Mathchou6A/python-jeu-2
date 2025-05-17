@@ -40,7 +40,7 @@ class PlayerL(pygame.sprite.Sprite):
 
       
    def atk_l(self):
-      self.attack = 10 + (self.rect.x / 4)
+      self.attack = 10 + (self.rect.x / 7)
       if not self.has_shield:
          self.status = "atk"
          shield = Shield(self.game, self)
@@ -52,19 +52,28 @@ class PlayerL(pygame.sprite.Sprite):
    def def_l(self):
       # changer le statut du joueur en mode attaque
       self.status = "def"
-      # jouer le son d'attaque
-      # self.game.sound_manager.play('tir')
+      print("PlayerL se défend !")
+      
       
       
    def move_right(self):
       # tester la collision avec player_r avant de bouger
-      if not self.game.check_collision():
+      if not self.game.check_collision() and not self.game.check_collision_soldat():
          self.rect.x += self.velocity
    
    
    def move_left(self):
       # if not self.game.check_collision():
          self.rect.x -= self.velocity
+   
+   def domage(self, attack):
+      # infliger des dégâts au joueur
+      print("PlayerL touché !")
+      print("dommage de", attack)
+      self.health -= attack
+      print(f"Player a subi {attack} dégâts. Santé restante : {self.health}")
+      if self.health <= 0:
+         self.game.game_over()
 
 
 

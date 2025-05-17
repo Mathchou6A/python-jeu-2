@@ -4,7 +4,7 @@ from game import Game # importer la classe game
 
 pygame.init() # initialiser pygame
 
-# def une clock 
+# def une clock dddddddd
 clock = pygame.time.Clock() # créer une horloge pour le jeu
 # définir le nombre de FPS
 FPS = 60 # définir le nombre de FPS
@@ -77,14 +77,15 @@ while running:
                print("Attaque du joueur gauche")
             elif event.button == 3:
                game.player_l.def_l()
-               print("Défense du joueur gauche")
-      
-      # elif event.type == pygame.MOU: 
-      #    game.player_l.def_l()
+               # print("Défense du joueur gauche")
+      elif event.type == pygame.MOUSEBUTTONUP:
+         if event.button == 3:
+            game.player_l.status = "passive"  # Désactiver la défense du joueur gauche
+            # print("Fin de la défense du joueur gauche")
       
       
       elif event.type == pygame.KEYUP: # si une touche est relâchée
          game.perssed[event.key] = False
          
    # limiter le nombre de FPS
-   clock.tick(FPS) # limiter le nombre de FPS
+   clock.tick(FPS) 
