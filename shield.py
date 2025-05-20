@@ -7,7 +7,7 @@ class Shield(pygame.sprite.Sprite):
       self.game = game
       self.player_l = player_l
       self.image = pygame.image.load('assets/shield.png')
-      self.image = pygame.transform.scale(self.image, (50, 50))
+      self.image = pygame.transform.scale(self.image, (100, 100))
       self.rect = self.image.get_rect(center=(player_l.rect.x + 140, player_l.rect.y + 90))
 
       self.velocity = 10

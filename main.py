@@ -24,16 +24,17 @@ background = pygame.image.load("assets/map_of_war.jpg") # charger l'arrière-pla
 
 # charger notre bannière
 banner = pygame.image.load("assets/captain-america.png") # charger la bannière
-banner = pygame.transform.scale(banner, (600, 407)) # redimensionner la bannière
+banner = pygame.transform.scale(banner, (550, 357)) # redimensionner la bannière
 banner_rect = banner.get_rect() # récupérer le rectangle de la bannière
 banner_rect.x = math.ceil(screen.get_width() // 2 - banner.get_width() // 2) # centrer la bannière
+banner_rect.y = math.ceil(screen.get_height() // 2 - 180) 
 
 # charger notre bouton pour lancer le jeu
 play_button = pygame.image.load("assets/logo captaine.png") # charger le bouton
-play_button = pygame.transform.scale(play_button, (475, 275)) # redimensionner le bouton
+play_button = pygame.transform.scale(play_button, (425, 225)) # redimensionner le bouton
 play_button_rect = play_button.get_rect() # récupérer le rectangle du bouton
-play_button_rect.x = math.ceil(screen.get_width() // 2 - play_button.get_width() // 2 + 50) # centrer le 
-play_button_rect.y = math.ceil(screen.get_height() // 2) # centrer le bouton
+play_button_rect.x = math.ceil(screen.get_width() // 2 - play_button.get_width() // 2) # centrer le 
+play_button_rect.y = math.ceil(screen.get_height() // 2 + 100) # centrer le bouton
 
 
 game = Game(screen) # charger notre jeu
@@ -53,6 +54,17 @@ while running:
       screen.blit(banner, banner_rect) # afficher la bannière
       screen.blit(play_button, play_button_rect) # afficher le bouton
       
+      font = pygame.font.Font('assets/ChelaOne-Regular.ttf', 35) # définir la police
+      Encouragement_text_1 = font.render("I don't fight for a flag, but for what it represents:", 1, (255, 255, 255)) # définir le texte
+      Encouragement_text_2 = font.render("freedom, justice, and hope.", 1, (255, 255, 255))
+      Encouragement_text_3 = font.render("As long as there are men and women willing to stand up for these ideals, America will endure.", 1, (255, 255, 255))
+      Encouragement_text_4 = font.render("So let's rise together and show the world that these values will never fall.", 1, (255, 255, 255))
+      
+      screen.blit(Encouragement_text_1, (screen.get_width() // 2 - Encouragement_text_1.get_width() // 2, 10)) # afficher le texte sur l'écran
+      screen.blit(Encouragement_text_2, (screen.get_width() // 2 - Encouragement_text_2.get_width() // 2, 45))
+      screen.blit(Encouragement_text_3, (screen.get_width() // 2 - Encouragement_text_3.get_width() // 2, 80))
+      screen.blit(Encouragement_text_4, (screen.get_width() // 2 - Encouragement_text_4.get_width() // 2, 115))
+      
       
       
    pygame.display.flip() # mettre à jour l'affichage
@@ -68,6 +80,11 @@ while running:
       elif event.type == pygame.MOUSEBUTTONDOWN:
          # vérifier si clic sur le bouton play 
          if game.is_playing == False and play_button_rect.collidepoint(event.pos): # si le jeu n'a pas commencé
+            game.start()
+            print("Jeu commencé")
+            # jouer le sond
+            game.sound_manager.play('click') # jouer le son de clic
+         elif game.var_game_over == True and play_button_rect.collidepoint(event.pos): # si le jeu est terminé
             game.start()
             print("Jeu commencé")
             # jouer le sond

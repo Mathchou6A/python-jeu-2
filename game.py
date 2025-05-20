@@ -25,8 +25,8 @@ class Game:
       # # gérer le sond
       self.sound_manager = SoundManager()
       
-      self.font = pygame.font.Font('assets/ChelaOne-Regular.ttf', 25) # définir la police
-   
+      self.font = pygame.font.Font('assets/ChelaOne-Regular.ttf', 40) # définir la police
+
    
    
    def health_bar_player_l(self, surface):
@@ -53,16 +53,17 @@ class Game:
    
    def start(self):
       self.is_playing = True
+      self.var_game_over = False
+      # remettre la vie du joueur à son maximum
+      self.player_l.health = self.player_l.max_health 
+      self.player_r.health = self.player_r.max_health 
+      self.score = 0 # remettre le score à 0
    
    def game_over(self):
       self.var_game_over = True
       # self.is_playing = False # remettre le jeu en attente
       print("Game Over")
-      
-      # remettre la vie du joueur à son maximum
-      self.player_l.health = self.player_l.max_health 
-      self.player_r.health = self.player_r.max_health 
-      
+            
       # remettre le joueur à sa position initiale
       self.player_l.rect.x = 55 
       self.player_r.rect.x = 1000
@@ -74,33 +75,33 @@ class Game:
       self.shield.remove(self.shield) # supprimer tous les boucliers
       self.player_l.has_shield = False
       
-      self.score = 0 # remettre le score à 0
       # jouer le son de game over
       self.sound_manager.play('game_over') # jouer le son de game over
 
       self.soldat.reset_position()
+      self.bombe.remove() # supprimer toutes les bombes
 
 
    
    def update(self, screen, play_button, play_button_rect):
       # si game_over est vrai, afficher le message de game over
       if self.var_game_over:
-         screen.blit(play_button, play_button_rect) # afficher le bouton
-         if event.type == pygame.MOUSEBUTTONDOWN:
-            if play_button_rect.collidepoint(play_button_rect.collidepoint(event.pos)): # si le jeu n'a pas commencé
-               self.is_playing = True
-               self.var_game_over = False
-         
          # afficher le message de game over
+         score_text = self.font.render(f"Score: {self.score}", 1, (0, 0, 0)) # définir le texte
+         screen.blit(score_text, (20, 20)) # afficher le texte sur l'écran
          if self.player_l.health <= 0:
-            encouragement_text = self.font.render("Even if the fight is difficult, hold on!", 3, (255, 255, 255)) # définir le texte
-            self.screen.blit(encouragement_text, (self.screen.get_width() // 2, self.screen.get_height() // 2)) # afficher le texte sur l'écran
-            print("Player L a perdu !")
+            encouragement_text_1 = self.font.render("I may fall, but as long as there is a spark of justice, I will rise again. ", True, (255, 255, 255)) # définir le texte
+            encouragement_text_2 = self.font.render("Evil may win a battle, but it will never win the war. Together, we will triumph.", True, (255, 255, 255))
+            self.screen.blit(encouragement_text_1, (self.screen.get_width() // 2 - encouragement_text_1.get_width() // 2, self.screen.get_height() // 2 - 90)) 
+            self.screen.blit(encouragement_text_2, (self.screen.get_width() // 2 - encouragement_text_2.get_width() // 2, self.screen.get_height() // 2 - 50))
+
          elif self.player_r.health <= 0:
-            encouragement_text = self.font.render("a changer par une meilleur phrase", 1, (255, 255, 255))
-            self.screen.blit(encouragement_text, (200, 200))
-            print("Player R a perdu !")
+            encouragement_text = self.font.render("Even if the fight is difficult, hold on!", True, (255, 255, 255)) # définir le texte
+            self.screen.blit(encouragement_text, (self.screen.get_width() // 2 - encouragement_text.get_width() // 2, self.screen.get_height() // 2 - 50)) # afficher le texte sur l'écran
             
+         screen.blit(play_button, play_button_rect) # afficher le bouton
+
+         
       if self.var_game_over == False:
          # print()
          # afficher le score sur l'écran
@@ -120,6 +121,9 @@ class Game:
             elif self.player_l.status == "atk": 
                screen.blit(self.player_l.image_atk, self.player_l.rect)
 
+         self.player_r.timeur()
+         
+         
          # appliquer l'image du joueur_r
          if self.player_r.status == "passive":
             screen.blit(self.player_r.image_passive, self.player_r.rect)

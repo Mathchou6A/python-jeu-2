@@ -24,6 +24,8 @@ class PlayerR(pygame.sprite.Sprite):
       self.rect.x = 1000
       self.rect.y = 200
       
+      self.couldown = 150
+      
       self.has_bombe = False
    
    def domage(self, attack):
@@ -33,13 +35,18 @@ class PlayerR(pygame.sprite.Sprite):
          self.game.score += 100
          self.game.game_over()
    
+   def timeur(self):
+      self.couldown += 1
+   
    def atk_r(self):
+      print(self.couldown)
       self.status = "atk"
       print("PlayerR attaque !")
-      if not self.has_bombe:
+      if not self.has_bombe and self.couldown >= 150:
          bombe = Bombe(self.game, self)
          self.game.bombe.add(bombe)
          self.has_bombe = True
+         self.couldown = 0
       # self.status = "passive"
       
 
