@@ -14,10 +14,7 @@ class PlayerR(pygame.sprite.Sprite):
       self.image_atk = pygame.image.load('assets/player_r_atk.png')
       self.image_atk = pygame.transform.scale(self.image_atk, (264, 400))
       self.rect = self.image_atk.get_rect()
-      
-      self.image_def = pygame.image.load('assets/player_r_def.png')
-      self.image_def = pygame.transform.scale(self.image_def, (264, 400))
-      self.rect = self.image_def.get_rect()
+
       
       self.status = "passive"
       self.max_health = self.screen.get_width() / 2 - 80
@@ -43,12 +40,8 @@ class PlayerR(pygame.sprite.Sprite):
          bombe = Bombe(self.game, self)
          self.game.bombe.add(bombe)
          self.has_bombe = True
-      self.status = "passive"
+      # self.status = "passive"
       
-   def def_r(self):
-      self.status = "def"
-      print("PlayerR se défend !")
-      self.status = "passive"
 
    def move_left(self):
       if not self.game.check_collision():

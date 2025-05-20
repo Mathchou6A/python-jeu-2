@@ -12,7 +12,7 @@ class Soldat(pygame.sprite.Sprite):
       self.health = 150
       self.max_health = 150
       self.attack = 3
-      self.velocity = random.randint(3, 5)
+      self.velocity = random.randint(1, 3)
       
       self.rect.x = self.game.screen.get_width()  # Position initiale à droite de l'écran
       self.rect.y = 215  # Hauteur ajustée pour passer derrière Hitler
@@ -22,9 +22,10 @@ class Soldat(pygame.sprite.Sprite):
       if not self.game.check_collision_soldat():
          self.rect.x -= self.velocity
       else: 
-         # Si le soldat touche le joueur gauche, il inflige des dégâts
          print("Soldat touché PlayerL")
-         self.game.player_l.domage(self.attack)
+         # Si le soldat touche le joueur gauche, il inflige des dégâts sauf si le joueur est en mode défense
+         if self.game.player_l.status != "def":
+            self.game.player_l.domage(self.attack)
 
    def health_bar_soldat(self, surface):
       # bordure noire

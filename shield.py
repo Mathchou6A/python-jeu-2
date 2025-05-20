@@ -23,7 +23,7 @@ class Shield(pygame.sprite.Sprite):
             self.game.player_r.domage(self.player_l.attack)
          elif self.rect.colliderect(self.game.soldat.rect):
             print("Bouclier touché Soldat")
-            self.game.score += 10
+            self.game.score += 5
             self.retour = True
             self.game.soldat.domage(38)
 

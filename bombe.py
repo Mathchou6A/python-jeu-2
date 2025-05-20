@@ -45,3 +45,4 @@ class Bombe(pygame.sprite.Sprite):
    def remove(self):
       self.game.bombe.remove(self)
       self.player_r.has_bombe = False
+      self.status = "passive"
