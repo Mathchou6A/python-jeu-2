@@ -1,5 +1,5 @@
-import pygame
-import math
+import pygame # importer pygame
+import math # importer math
 from game import Game # importer la classe game
 
 pygame.init() # initialiser pygame
@@ -10,15 +10,10 @@ clock = pygame.time.Clock() # créer une horloge pour le jeu
 FPS = 60 # définir le nombre de FPS
 
 
-# largeur de la fenêtre
-largeur = 1280
-# hauteur de la fenêtre
-hauteur = 650
-
 # créer une fenêtre de jeux
-screen = pygame.display.set_mode((largeur, hauteur)) # définir la taille de la fenêtre   (1800, 950)
+screen = pygame.display.set_mode((1280, 659)) # définir la taille de la fenêtre   (1800, 950)
 # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-pygame.display.set_caption("Jeu pour l'anglais et la NSI")
+pygame.display.set_caption("Jeu pour l'anglais et la NSI") # définir le titre de la fenêtre
 
 background = pygame.image.load("assets/map_of_war.jpg") # charger l'arrière-plan
 
@@ -27,7 +22,7 @@ banner = pygame.image.load("assets/captain-america.png") # charger la bannière
 banner = pygame.transform.scale(banner, (550, 357)) # redimensionner la bannière
 banner_rect = banner.get_rect() # récupérer le rectangle de la bannière
 banner_rect.x = math.ceil(screen.get_width() // 2 - banner.get_width() // 2) # centrer la bannière
-banner_rect.y = math.ceil(screen.get_height() // 2 - 180) 
+banner_rect.y = math.ceil(screen.get_height() // 2 - 180) # centrer la bannière
 
 # charger notre bouton pour lancer le jeu
 play_button = pygame.image.load("assets/logo captaine.png") # charger le bouton
@@ -42,7 +37,7 @@ game = Game(screen) # charger notre jeu
 # boucle de jeu
 running = True
 
-while running:
+while running: # boucle principale du jeu
    # appliquer l'image de fond
    screen.blit(background, (0, -200)) 
    
@@ -68,16 +63,17 @@ while running:
       
       
    pygame.display.flip() # mettre à jour l'affichage
-   for event in pygame.event.get():
-      if event.type == pygame.QUIT:
-         running = False
-         pygame.quit()
+   for event in pygame.event.get(): # boucle pour gérer les événements
+      if event.type == pygame.QUIT: # si la croix de la fenêtre est cliquée
+         running = False # quitter la boucle
+         pygame.quit() # quitter le jeu
          print("Fermeture du jeu")
       elif event.type == pygame.KEYDOWN: # si une touche est enfoncée
-         game.perssed[event.key] = True
+         game.perssed[event.key] = True # enregistrer la touche enfoncée
       
       # Déclenchement avec un clic gauche de souris
-      elif event.type == pygame.MOUSEBUTTONDOWN:
+      elif event.type == pygame.MOUSEBUTTONDOWN: # si un bouton de la souris est enfoncé
+         
          # vérifier si clic sur le bouton play 
          if game.is_playing == False and play_button_rect.collidepoint(event.pos): # si le jeu n'a pas commencé
             game.start()
@@ -90,13 +86,13 @@ while running:
             # jouer le sond
             game.sound_manager.play('click') # jouer le son de clic
          else:
-            if event.button == 1:
-               game.player_l.atk_l()
+            if event.button == 1: # si le bouton gauche de la souris est enfoncé
+               game.player_l.atk_l() 
                print("Attaque du joueur gauche")
-            elif event.button == 3:
+            elif event.button == 3: # si le bouton droit de la souris est enfoncé
                game.player_l.def_l()
-               # print("Défense du joueur gauche")
-      elif event.type == pygame.MOUSEBUTTONUP:
+               print("Défense du joueur gauche")
+      elif event.type == pygame.MOUSEBUTTONUP: # si un bouton de la souris est relâché
          if event.button == 3:
             game.player_l.status = "passive"  # Désactiver la défense du joueur gauche
             # print("Fin de la défense du joueur gauche")

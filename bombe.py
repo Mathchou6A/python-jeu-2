@@ -17,32 +17,23 @@ class Bombe(pygame.sprite.Sprite):
       self.rect.x = self.game.player_l.rect.x + 105
       self.rect.y = 0
    
-   # def move(self):
-   #    if not self.player_r.has_bombe:
-   #       self.move_bottom()
-   #       if self.rect.colliderect(self.game.player_l.rect):
-   #          print("Bouclier touché PlayerR")
-   #          self.game.player_l.domage(self.player_r.attack)
-   #          self.remove()
-   #          self.player_r.has_bombe = True
 
    def move(self):
-
-      self.rect.y += self.velocity
+      self.rect.y += self.velocity # descendre la bombe
+      # collision avec le joueur gauche
       if self.rect.colliderect(self.game.player_l.rect):
          print("Bombe touché PlayerL")
          if self.game.player_l.status == "def":
             print("PlayerL se défend !")
-            self.remove()
+            self.remove() # supprimer la bombe
          else:
-            self.game.player_l.domage(self.player_r.attack) 
+            self.game.player_l.domage(self.player_r.attack) # infliger des dégâts
             self.remove()
       elif self.rect.y > self.game.screen.get_height():
          self.remove()
 
-
    
-   def remove(self):
+   def remove(self): # supprimer la bombe du jeu
       self.game.bombe.remove(self)
       self.player_r.has_bombe = False
       self.status = "passive"

@@ -47,18 +47,19 @@ class PlayerR(pygame.sprite.Sprite):
          self.game.bombe.add(bombe)
          self.has_bombe = True
          self.couldown = 0
-      # self.status = "passive"
+         
       
 
    def move_left(self):
-      if not self.game.check_collision():
+      if not self.game.check_collision(): # si le joueur n'est pas à la limite gauche de l'écran
          self.status = "passive"
          self.rect.x -= self.velocity  # avancer vers la gauche
 
 
-   def move_right(self):
-      self.status = "passive"
-      self.rect.x += self.velocity  # reculer vers la droite
+   def move_right(self): # avancer vers la droite
+      if self.rect.x < 1280 + self.rect.width: # si le joueur n'est pas à la limite droite de l'écran
+         self.status = "passive"
+         self.rect.x += self.velocity
 
 
 

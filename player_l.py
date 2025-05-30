@@ -9,8 +9,6 @@ class PlayerL(pygame.sprite.Sprite):
       super().__init__()
       self.game = game # récupérer le jeu
       self.screen = screen # récupérer l'écran
-      # self.shield = shield(self.game, self) # créer le shield du joueur gauche
-
       
       # charger l'image du joueur
       self.image_passive = pygame.image.load('assets/player_l.png')
@@ -36,17 +34,16 @@ class PlayerL(pygame.sprite.Sprite):
       self.rect.y = 201
       self.attack = 10
       
-      self.has_shield = False
+      self.has_shield = False # pour savoir si le joueur a un bouclier
 
       
    def atk_l(self):
-      self.attack = 10 + (self.rect.x / 7)
+      self.attack = 10 + (self.rect.x / 7) # augmenter l'attaque en fonction de la position du joueur
       if not self.has_shield:
-         self.status = "atk"
-         shield = Shield(self.game, self)
-         self.game.shield.add(shield)
+         self.status = "atk" 
+         shield = Shield(self.game, self) # créer un bouclier
+         self.game.shield.add(shield) # ajouter le bouclier au groupe
          self.has_shield = True
-
 
    
    def def_l(self):
@@ -69,11 +66,10 @@ class PlayerL(pygame.sprite.Sprite):
    def domage(self, attack):
       # infliger des dégâts au joueur
       print("PlayerL touché !")
-      print("dommage de", attack)
-      self.health -= attack
-      print(f"Player a subi {attack} dégâts. Santé restante : {self.health}")
-      if self.health <= 0:
-         self.game.game_over()
+      self.health -= attack # réduire la santé du joueur
+      print(f"Player a subi {attack} dégâts. Santé restante : {self.health}") # afficher les dégâts subis par le joueur
+      if self.health <= 0: # si la santé est inférieure ou égale à 0, le joueur est mort
+         self.game.game_over() 
 
 
 

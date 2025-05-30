@@ -11,7 +11,7 @@ class Soldat(pygame.sprite.Sprite):
 
       self.health = 150
       self.max_health = 150
-      self.attack = 3
+      self.attack = random.randint(2, 7)
       self.velocity = random.randint(1, 3)
       
       self.rect.x = self.game.screen.get_width()  # Position initiale à droite de l'écran
@@ -36,7 +36,7 @@ class Soldat(pygame.sprite.Sprite):
       pygame.draw.rect(surface, (111, 210, 46), [self.rect.x + 10, self.rect.y - 30, self.health, 10])
    
    
-   def domage(self, attack):
+   def domage(self, attack): # infliger des dégâts au soldat
       self.health -= attack
       if self.health <= 0:
          self.reset_position()  # Réinitialiser à gauche plutôt que de supprimer
