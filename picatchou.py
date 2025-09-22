@@ -1,19 +1,23 @@
 import pygame
-from bombe import Bombe
+from electric_charge import electric_charge
 
-class PlayerR(pygame.sprite.Sprite):
+class picatchou(pygame.sprite.Sprite):
    def __init__(self, game, screen):
       super().__init__()
       self.game = game
       self.screen = screen
-      self.bombe = Bombe(self.game, self)
-      self.image_passive = pygame.image.load('assets/player_r.png')
-      self.image_passive = pygame.transform.scale(self.image_passive, (129, 400))
+            
+      self.image_passive = pygame.image.load('assets/picatchou.png')
+      self.image_passive = pygame.transform.scale(self.image_passive, (315, 300))
       self.rect = self.image_passive.get_rect()
       
-      self.image_atk = pygame.image.load('assets/player_r_atk.png')
-      self.image_atk = pygame.transform.scale(self.image_atk, (264, 400))
+      self.image_atk = pygame.image.load('assets/picatchou_atk.png')
+      self.image_atk = pygame.transform.scale(self.image_atk, (345, 300))
       self.rect = self.image_atk.get_rect()
+      
+      self.image_def = pygame.image.load('assets/picatchou_def.png')
+      self.image_def = pygame.transform.scale(self.image_def, (272, 300))
+      self.rect = self.image_def.get_rect()
 
       
       self.status = "passive"
@@ -21,12 +25,11 @@ class PlayerR(pygame.sprite.Sprite):
       self.health = self.screen.get_width() / 2 - 80
       self.attack = 75
       self.velocity = 3
-      self.rect.x = 1000
-      self.rect.y = 200
+      self.rect.x = 55
+      self.rect.y = 300
       
-      self.couldown = 150
+      self.has_shield = False # pour savoir si le joueur a un bouclier
       
-      self.has_bombe = False
    
    def domage(self, attack):
       # infliger des dégâts au joueur
@@ -35,31 +38,24 @@ class PlayerR(pygame.sprite.Sprite):
          self.game.score += 100
          self.game.game_over()
    
-   def timeur(self):
-      self.couldown += 1
-   
-   def atk_r(self):
-      print(self.couldown)
-      self.status = "atk"
-      print("PlayerR attaque !")
-      if not self.has_bombe and self.couldown >= 150:
-         bombe = Bombe(self.game, self)
-         self.game.bombe.add(bombe)
-         self.has_bombe = True
-         self.couldown = 0
-         
-      
 
-   def move_left(self):
+   
+   def atk(self):
+      self.status = "atk"
+      print("pica attaque !")
+      self.game.electric_charge.add(electric_charge)
+
+
+   def move_right(self):
       if not self.game.check_collision(): # si le joueur n'est pas à la limite gauche de l'écran
          self.status = "passive"
-         self.rect.x -= self.velocity  # avancer vers la gauche
+         self.rect.x += self.velocity  # avancer vers la gauche
 
 
-   def move_right(self): # avancer vers la droite
+   def move_left(self): # avancer vers la droite
       if self.rect.x < 1280 + self.rect.width: # si le joueur n'est pas à la limite droite de l'écran
          self.status = "passive"
-         self.rect.x += self.velocity
+         self.rect.x -= self.velocity
 
 
 
