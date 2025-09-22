@@ -1,12 +1,12 @@
 import pygame
 
 
-class Shield(pygame.sprite.Sprite):
+class electric_charge(pygame.sprite.Sprite):
    def __init__(self, game, player_l):
       super().__init__()
       self.game = game # récupérer le jeu
       self.player_l = player_l # récupérer le joueur gauche
-      self.image = pygame.image.load('assets/shield.png') # charger l'image du bouclier
+      self.image = pygame.image.load('assets/electric_charge.png') # charger l'image du bouclier
       self.image = pygame.transform.scale(self.image, (100, 100)) # redimensionner l'image
       self.rect = self.image.get_rect(center=(player_l.rect.x + 140, player_l.rect.y + 90)) # positionner le bouclier au niveau du joueur
 
@@ -36,7 +36,7 @@ class Shield(pygame.sprite.Sprite):
             self.player_l.status = "passive"
             self.retour = False
             self.remove() # supprimer le bouclier
-            self.game.player_l.has_shield = False
+            self.game.player_l.has_electric_charge = False
 
    def move_right(self): # déplacer le bouclier vers la droite
       self.rect.x += self.velocity
@@ -45,7 +45,7 @@ class Shield(pygame.sprite.Sprite):
       self.rect.x -= self.velocity
    
    def remove(self): # supprimer le bouclier du jeu
-      self.game.shield.remove(self)
+      self.game.electric_charge.remove(self)
 
 
 
