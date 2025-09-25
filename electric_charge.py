@@ -1,37 +1,45 @@
 import pygame
 
 
-class electric_charge(pygame.sprite.Sprite):
-   def __init__(self, game, player_l):
+# definir la classe qui va gérer les projectiles de notre joueur
+class projectile(pygame.sprite.Sprite):
+   def __init__(self, player):
       super().__init__()
-      self.game = game # récupérer le jeu
-      self.picatchou = picatchou  # récupérer le joueur gauche
-      self.image = pygame.image.load('assets/electric_charge.png') # charger l'image du bouclier
-      self.image = pygame.transform.scale(self.image, (100, 100)) # redimensionner l'image
-      self.rect = self.image.get_rect(center=(player_l.rect.x + 140, player_l.rect.y + 90)) # positionner le bouclier au niveau du joueur
+      self.image = pygame.image.load('assets/projectile.png')
+      self.image = pygame.transform.scale(self.image, (50, 50))
+      self.velocity = 15 # vitesse du projectile
+      self.rect = self.image.get_rect()
+      self.rect.x = player.rect.x + 140
+      self.rect.y = player.rect.y + 90
+      self.origin_image = self.image # sauvegarder l'image d'origine
+      self.angle = 0 # angle de rotation
+      self.player = player
 
-      self.velocity = 10 # vitesse de déplacement du bouclier
-      self.retour = False # phase retour
+   def rotate(self):
+      self.angle += 5 # rotation de 5 degrés
+      self.image = pygame.transform.rotozoom(self.origin_image, self.angle, 1) # faire tourner l'image
+      self.rect = self.image.get_rect(center=self.rect.center)
+   
+   
+   def remove(self):
+      self.player.all_projectiles.remove(self)
+      print("Projectile supprimé")
+
+
 
    def move(self):
-      # déplacer le bouclier
-      self.move_right() # déplacer vers la droit
+      self.rect.x += self.velocity # deplacer le projectile vers la droite
+      self.rotate() # faire tourner le projectile
       
-      if self.rect.colliderect(self.game.evoli.rect): # collision avec player_r
-         print("electric charge touch evoli")
-         self.game.evoli.domage(self.player_l.attack) # infliger des dégâts au joueur de droite
-         self.remove(self)
-
-
-
-   def move_right(self): # déplacer le bouclier vers la droite
-      self.rect.x += self.velocity
-
-   def move_left(self): # déplacer le bouclier vers la gauche
-      self.rect.x -= self.velocity
-   
-   def remove(self): # supprimer le bouclier du jeu
-      self.game.electric_charge.remove(self)
-
+      # verifier si le projectile touche un monstre
+      for monster in self.player.game.check_collision(self, self.player.game.all_monsters): # si le projectile touche un monstre
+         # suppression du projectile
+         self.remove()
+         # infliger des dégats au monstre
+         monster.damage(self.player.attack)
+      
+      screen = pygame.display.get_surface()
+      if self.rect.x > screen.get_width(): # si le projectile depasse la largeur de l'écran
+         self.remove() # supprimer le projectile si il depasse la largeur de l'écran
 
 

@@ -40,11 +40,11 @@ class picatchou(pygame.sprite.Sprite):
    
 
    
-   def atk(self):
-      self.status = "atk"
-      print("pica attaque !")
-      self.game.electric_charge.add(electric_charge)
-
+   def launch_projectile(self):       # lancer un projectile
+      self.all_projectiles.add(projectile(self))
+      # démarrer l'animation 
+      self.start_animation()
+      self.game.sound_manager.play('tir')
 
    def move_right(self):
       if not self.game.check_collision(): # si le joueur n'est pas à la limite gauche de l'écran
